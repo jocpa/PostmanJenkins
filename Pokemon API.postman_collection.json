@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "5f8c9cd6-d270-4f6e-ad5c-fd436f4de83d",
+		"name": "Pokemon API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25854527"
+	},
+	"item": [
+		{
+			"name": "All Pokemons",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Guardar respuesta\r",
+							"const response = pm.response.json()\r",
+							"\r",
+							"//Guardar el primer resultado (object)\r",
+							"const results = response.results[0]\r",
+							"\r",
+							"//Verificar llaves del objeto\r",
+							"const hasName = JSON.stringify( _.some( Object.keys(results, {'url': ''})  ) )\r",
+							"const hasUrl = JSON.stringify( _.some( Object.keys(results, {'name': ''})  ) )\r",
+							"\r",
+							"// console.log(response.results[0].name)\r",
+							"// console.log(typeof response.results[0])\r",
+							"\r",
+							"pm.test(\"Return at least something\", () => {\r",
+							"    pm.expect(results).to.be.an('object')\r",
+							"    pm.expect(hasName).to.be.eql(\"true\")\r",
+							"    pm.expect(hasUrl).to.be.eql(\"true\")\r",
+							"})\r",
+							"\r",
+							"\r",
+							"// console.log(_.some(response.results, {'name': \"bulbasaur\"}))\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{pokedexUrl}}",
+					"host": [
+						"{{pokedexUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get first 9 pokemons",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json()\r",
+							"const results =  _.isEmpty( response.results[0] )\r",
+							"\r",
+							"pm.test(\"Check response is not empty\", () => {\r",
+							"    pm.expect(results).to.be.eql(false)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{pokedexUrl}}?limit=9",
+					"host": [
+						"{{pokedexUrl}}"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "9"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "pokedexUrl",
+			"value": "https://pokeapi.co/api/v2/pokemon"
+		}
+	]
+}
